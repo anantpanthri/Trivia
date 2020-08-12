@@ -33,11 +33,18 @@ def create_app(test_config=None):
   Create an endpoint to handle GET requests 
   for all available categories.
   '''
+    @app.route('/health', methods=['GET'])
+    def get_health():
+        return jsonify({
+            'success': True,
+            'health': "Trivia APP is up"
+        })
 
     @app.route('/categories', methods=['GET'])
     @cross_origin()
     def get_categories():
         categories = Category.query.all()
+        print(categories)
         if not categories:
             abort(404)
         return jsonify({
